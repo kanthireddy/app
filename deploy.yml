@@ -1,0 +1,37 @@
+---
+-name:Tomca and deploy
+ hosts:app
+ become:yes
+
+
+ tasks:
+   -name:Install java
+    apt:
+      name:default-jdk
+      state:present
+      update_cache:yes
+   -name:Install unzip
+    apt:
+      name:
+        -unzip
+        -wget
+      state:present
+   -name:Download
+    get_url:
+    url:https://downloads.apache.org/tomcat/tomcat-9/v9.0.108/bin/apache-tomcat-0.0.108.tar.gz
+    dest:/tmp/tomcat.tar.gz
+
+   -name:Exctract
+    unarchive:
+      src:/tmp/tomcat.tar.gz
+      desr:/opt/
+      remote_src:yes
+   
+    -name:copy war file
+     copy:
+     src:/var/lib/jenkins/workspace/Kanthi/target/app.war
+     dest:/opt/apache-tomcat-9.0.108/webapps/app.war
+     mode:"0644"
+
+    -name:Start
+     shell:nohup /opt/apache-tomcat-9.0.108/bin/startup.sh &
