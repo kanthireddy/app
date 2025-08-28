@@ -30,7 +30,7 @@ pipeline{
 
     stage("Deploy"){
         steps{
-            sshagent(credentails: ['ansible-key']){
+            sshagent(credentials: ['ansible-key']){
                 sh '''
  
                     ANSIBLE_HOST_KEY_CHECKING=False ansible playbook -i hosts.ini deploy.yml
