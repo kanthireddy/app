@@ -32,8 +32,8 @@ pipeline{
         steps{
             sshagent(credentials: ['ansible-key']){
                 sh '''
- 
-                    ANSIBLE_HOST_KEY_CHECKING=False ansible playbook -i hosts.ini deploy.yml
+                    cd ansible-deploy
+                    ANSIBLE_HOST_KEY_CHECKING=False ansible playbook -i hosts.ini tomcat_deploy.yml
 
                 '''
             }
